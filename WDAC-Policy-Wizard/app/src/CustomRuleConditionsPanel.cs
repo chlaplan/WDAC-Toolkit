@@ -303,7 +303,7 @@ namespace WDAC_Wizard
                 }
 
                 // Check for Omit Scan Paths
-                if (this.checkedListBoxOmitPaths.CheckedItems.Count > 1)
+                if (this.checkedListBoxOmitPaths.CheckedItems.Count > 0)
                 {
                     // Using for loop to avoid System.InvalidOperationException despite list not changing
                     for (int i = 0; i < this.checkedListBoxOmitPaths.CheckedItems.Count; i++)
