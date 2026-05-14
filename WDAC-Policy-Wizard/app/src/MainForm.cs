@@ -851,7 +851,13 @@ namespace WDAC_Wizard
         {
             string process = "";
             int progressPercent = e.ProgressPercentage;
-            if (progressPercent <= 10)
+
+            // If a custom status string was passed via UserState, prefer it over the percent-bucketed text
+            if (e.UserState is string userStatus && !string.IsNullOrWhiteSpace(userStatus))
+            {
+                process = userStatus;
+            }
+            else if (progressPercent <= 10)
                 process = "Building policy rules ...";
             else if (progressPercent <= 25)
                 process = "Configuring policy signer and file rules ...";
@@ -1304,17 +1310,100 @@ namespace WDAC_Wizard
                 if(customRule.Type == PolicyCustomRules.RuleType.FolderScan)
                 {
                     // Report a mid-range progress so the UI shows scanning activity
-                    worker.ReportProgress(Math.Min(progressVal + 30, 80));
+                    int scanProgress = Math.Min(progressVal + 30, 80);
+                    string scanPathDisplay = customRule.ReferenceFile;
+                    worker.ReportProgress(scanProgress, $"Scanning folder: {scanPathDisplay} ...");
 
-                    SiPolicy signerSiPolicy; 
-                    if (this.Policy._PolicyType == WDAC_Policy.PolicyType.BasePolicy)
+                    // Run the scan on a background task so we can send periodic heartbeat updates to the UI
+                    SiPolicy signerSiPolicy = null;
+                    var scanTask = System.Threading.Tasks.Task.Run(() =>
                     {
-                        signerSiPolicy = PSCmdlets.CreateScannedPolicyFromPS(customRule, tmpPolicyPath);
-                    }
-                    else
+                        if (this.Policy._PolicyType == WDAC_Policy.PolicyType.BasePolicy)
+                            signerSiPolicy = PSCmdlets.CreateScannedPolicyFromPS(customRule, tmpPolicyPath);
+                        else
+                            signerSiPolicy = PSCmdlets.CreateScannedPolicyFromPS(customRule, tmpPolicyPath, this.Policy.BaseToSupplementPath);
+                    });
+
+                    // Enumerate file count and current folder concurrently (metadata-only, fast)
+                    // New-CIPolicy doesn't expose per-file progress, but we can show total file count
+                    // and the most recently observed subdirectory for context.
+                    long totalFiles = -1;
+                    string currentSubFolder = scanPathDisplay;
+                    bool enumerationComplete = false;
+                    var enumTask = System.Threading.Tasks.Task.Run(() =>
                     {
-                        signerSiPolicy = PSCmdlets.CreateScannedPolicyFromPS(customRule, tmpPolicyPath, this.Policy.BaseToSupplementPath);
+                        try
+                        {
+                            long count = 0;
+                            // Exclude omit paths from the count
+                            var omitPaths = customRule.Scan.OmitPaths ?? new List<string>();
+                            foreach (var file in System.IO.Directory.EnumerateFiles(scanPathDisplay, "*", System.IO.SearchOption.AllDirectories))
+                            {
+                                bool skip = false;
+                                foreach (var omit in omitPaths)
+                                {
+                                    if (!string.IsNullOrEmpty(omit) && file.StartsWith(omit, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        skip = true;
+                                        break;
+                                    }
+                                }
+                                if (skip) continue;
+
+                                count++;
+                                // Track current subfolder periodically so we don't thrash on every file
+                                if ((count & 0xFF) == 0)
+                                {
+                                    currentSubFolder = System.IO.Path.GetDirectoryName(file) ?? scanPathDisplay;
+                                }
+                            }
+                            totalFiles = count;
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Log.AddWarningMsg($"File enumeration for status display failed: {ex.Message}");
+                        }
+                        finally
+                        {
+                            enumerationComplete = true;
+                        }
+                    });
+
+                    var sw = System.Diagnostics.Stopwatch.StartNew();
+                    char[] spinnerFrames = new[] { '|', '/', '-', '\\' };
+                    int spinnerIdx = 0;
+
+                    while (!scanTask.IsCompleted)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        if (scanTask.IsCompleted) break;
+
+                        string elapsed = sw.Elapsed.TotalMinutes >= 1
+                            ? $"{(int)sw.Elapsed.TotalMinutes}m {sw.Elapsed.Seconds}s"
+                            : $"{sw.Elapsed.Seconds}s";
+
+                        string countText = totalFiles >= 0
+                            ? $"{totalFiles:N0} files"
+                            : "counting files...";
+
+                        // Show shortened subfolder relative to scan root for readability
+                        string subfolderDisplay = currentSubFolder;
+                        if (currentSubFolder.StartsWith(scanPathDisplay, StringComparison.OrdinalIgnoreCase) && currentSubFolder.Length > scanPathDisplay.Length)
+                        {
+                            subfolderDisplay = "..." + currentSubFolder.Substring(scanPathDisplay.Length);
+                        }
+
+                        // Once enumeration is done, the "current folder" stops updating because we have no
+                        // visibility into New-CIPolicy's internal progress. Switch to an honest activity indicator.
+                        char spinner = spinnerFrames[spinnerIdx++ % spinnerFrames.Length];
+                        string currentLine = enumerationComplete
+                            ? $"Status:  {spinner}  Processing rules in PowerShell (please wait)..."
+                            : $"Current: {subfolderDisplay}";
+
+                        worker.ReportProgress(scanProgress,
+                            $"Scanning  |  {countText}  |  {elapsed} elapsed\r\nRoot:    {scanPathDisplay}\r\n\r\n{currentLine}");
                     }
+                    scanTask.Wait();
 
                     // Successful Scan completed
                     if (signerSiPolicy != null)
