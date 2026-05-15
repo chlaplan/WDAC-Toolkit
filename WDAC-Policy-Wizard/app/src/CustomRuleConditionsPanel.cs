@@ -71,9 +71,9 @@ namespace WDAC_Wizard
             var btnSelectAll = new Button
             {
                 Text = "Select All",
-                Size = new System.Drawing.Size(80, 25),
-                Font = new System.Drawing.Font("Tahoma", 7.5F),
-                Location = new System.Drawing.Point(checkedListBoxOmitPaths.Right - 165, checkedListBoxOmitPaths.Top - 28),
+                Size = new System.Drawing.Size(100, 30),
+                Font = new System.Drawing.Font("Tahoma", 8.5F),
+                Location = new System.Drawing.Point(checkedListBoxOmitPaths.Right - 205, checkedListBoxOmitPaths.Top - 28),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             btnSelectAll.Click += (s, ev) =>
@@ -85,9 +85,9 @@ namespace WDAC_Wizard
             var btnDeselectAll = new Button
             {
                 Text = "Deselect All",
-                Size = new System.Drawing.Size(80, 25),
-                Font = new System.Drawing.Font("Tahoma", 7.5F),
-                Location = new System.Drawing.Point(checkedListBoxOmitPaths.Right - 80, checkedListBoxOmitPaths.Top - 28),
+                Size = new System.Drawing.Size(100, 30),
+                Font = new System.Drawing.Font("Tahoma", 8.5F),
+                Location = new System.Drawing.Point(checkedListBoxOmitPaths.Right - 100, checkedListBoxOmitPaths.Top - 28),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
             btnDeselectAll.Click += (s, ev) =>

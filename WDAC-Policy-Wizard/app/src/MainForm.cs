@@ -39,6 +39,20 @@ namespace WDAC_Wizard
         public EditWorkflowType EditWorkflow;
         public SiPolicy EventLogPolicy; 
 
+        // Folder Scan summary stats for the finish screen
+        private FolderScanStats _folderScanStats;
+
+        private class FolderScanStats
+        {
+            public long TotalFilesOnDisk;
+            public int PolicyRelevantFiles;
+            public int HashRules;
+            public int SignerRules;
+            public int UniqueHashes;
+            public int DuplicateHashes;
+            public TimeSpan Elapsed;
+        }
+
         public enum EditWorkflowType
         {
             Edit = 0,
@@ -909,6 +923,20 @@ namespace WDAC_Wizard
                 {
                     this._BuildPage.ShowFinishMsg(this.Policy.SchemaPath); 
                 }
+
+                // Show scan summary chart if a folder scan was performed
+                if (_folderScanStats != null)
+                {
+                    this._BuildPage.SetScanSummary(
+                        _folderScanStats.TotalFilesOnDisk,
+                        _folderScanStats.PolicyRelevantFiles,
+                        _folderScanStats.HashRules,
+                        _folderScanStats.SignerRules,
+                        _folderScanStats.UniqueHashes,
+                        _folderScanStats.DuplicateHashes,
+                        _folderScanStats.Elapsed);
+                    _folderScanStats = null;
+                }
             }
 
             // Re-initialize SiPolicy object
@@ -1404,10 +1432,47 @@ namespace WDAC_Wizard
                             $"Scanning  |  {countText}  |  {elapsed} elapsed\r\nRoot:    {scanPathDisplay}\r\n\r\n{currentLine}");
                     }
                     scanTask.Wait();
+                    sw.Stop();
 
-                    // Successful Scan completed
+                    // Compute scan summary stats from the generated policy
                     if (signerSiPolicy != null)
                     {
+                        int hashRuleCount = 0;
+                        int signerRuleCount = signerSiPolicy.Signers?.Length ?? 0;
+                        int totalFileRules = signerSiPolicy.FileRules?.Length ?? 0;
+                        var uniqueHashes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                        int duplicateHashCount = 0;
+
+                        if (signerSiPolicy.FileRules != null)
+                        {
+                            foreach (var rule in signerSiPolicy.FileRules)
+                            {
+                                byte[] hash = null;
+                                if (rule is Allow allow) hash = allow.Hash;
+                                else if (rule is Deny deny) hash = deny.Hash;
+
+                                if (hash != null && hash.Length > 0)
+                                {
+                                    hashRuleCount++;
+                                    string hex = BitConverter.ToString(hash);
+                                    if (!uniqueHashes.Add(hex))
+                                        duplicateHashCount++;
+                                }
+                            }
+                        }
+
+                        // Store stats so the finish screen can display them
+                        _folderScanStats = new FolderScanStats
+                        {
+                            TotalFilesOnDisk = totalFiles >= 0 ? totalFiles : 0,
+                            PolicyRelevantFiles = totalFileRules,
+                            HashRules = hashRuleCount,
+                            SignerRules = signerRuleCount,
+                            UniqueHashes = uniqueHashes.Count,
+                            DuplicateHashes = duplicateHashCount,
+                            Elapsed = sw.Elapsed
+                        };
+
                         siPolicy = PolicyHelper.MergePolicies(signerSiPolicy, siPolicy);
                     }
                 }

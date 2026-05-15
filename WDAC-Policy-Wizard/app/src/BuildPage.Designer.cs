@@ -42,6 +42,7 @@ namespace WDAC_Wizard
             binFilePathLabel = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             progressString_Label = new System.Windows.Forms.Label();
+            scanSummaryLabel = new System.Windows.Forms.Label();
             finishPanel.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,6 +116,7 @@ namespace WDAC_Wizard
             // 
             // finishPanel
             // 
+            finishPanel.Controls.Add(scanSummaryLabel);
             finishPanel.Controls.Add(binFilePathLabel);
             finishPanel.Controls.Add(label4);
             finishPanel.Controls.Add(xmlFilePathLabel);
@@ -122,9 +124,25 @@ namespace WDAC_Wizard
             finishPanel.Location = new System.Drawing.Point(167, 237);
             finishPanel.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             finishPanel.Name = "finishPanel";
-            finishPanel.Size = new System.Drawing.Size(867, 182);
+            finishPanel.Size = new System.Drawing.Size(867, 420);
             finishPanel.TabIndex = 87;
             finishPanel.Visible = false;
+            // 
+            // scanSummaryLabel
+            // 
+            scanSummaryLabel.AutoSize = false;
+            scanSummaryLabel.BackColor = System.Drawing.Color.FromArgb(245, 245, 248);
+            scanSummaryLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            scanSummaryLabel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            scanSummaryLabel.ForeColor = System.Drawing.Color.FromArgb(30, 30, 30);
+            scanSummaryLabel.Location = new System.Drawing.Point(3, 165);
+            scanSummaryLabel.Name = "scanSummaryLabel";
+            scanSummaryLabel.Padding = new System.Windows.Forms.Padding(8, 6, 8, 6);
+            scanSummaryLabel.Size = new System.Drawing.Size(500, 240);
+            scanSummaryLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
+            scanSummaryLabel.TabIndex = 89;
+            scanSummaryLabel.Text = "";
+            scanSummaryLabel.Visible = false;
             // 
             // binFilePathLabel
             // 
@@ -197,5 +215,6 @@ namespace WDAC_Wizard
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label progressString_Label;
         private System.Windows.Forms.Label binFilePathLabel;
+        private System.Windows.Forms.Label scanSummaryLabel;
     }
 }
