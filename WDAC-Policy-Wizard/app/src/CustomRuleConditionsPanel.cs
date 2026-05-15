@@ -856,7 +856,6 @@ namespace WDAC_Wizard
                     this.panelFolderScanConditions.Location = this.checkBox_CustomPath.Location;
                     this.panelFolderScanConditions.Visible = true;
                     this.label_condition.Text = "Scan Path:";
-                    this.button_Next.Visible = false;
                     break;
 
                 case "Certificate File":
