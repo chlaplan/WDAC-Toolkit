@@ -2831,8 +2831,9 @@ namespace WDAC_Wizard
                     uncheckedItems.Add(rawName);
             }
 
-            // Ensure Hash is in checked list (unless it would be the only/first item making it Level)
-            if (!checkedItems.Contains("Hash"))
+            // Ensure Hash is in checked list as fallback, but only when at least one other level
+            // is already checked (so Hash doesn't become the primary Level by itself).
+            if (!checkedItems.Contains("Hash") && checkedItems.Count > 0)
             {
                 uncheckedItems.Remove("Hash");
                 checkedItems.Add("Hash");
