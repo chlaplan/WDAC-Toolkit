@@ -155,7 +155,13 @@ namespace WDAC_Wizard
             // Add fallback levels, if applicable
             if (customRule.Scan.Levels.Count > 1)
             {
-                fallbacks = string.Join(",",customRule.Scan.Levels.Skip(1));
+                // Always ensure Hash is the final fallback for unsigned files.
+                // Remove any existing Hash entry and append it at the end.
+                var fallbackList = customRule.Scan.Levels.Skip(1)
+                    .Where(l => !l.Equals("Hash", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                fallbackList.Add("Hash");
+                fallbacks = string.Join(",", fallbackList);
             }
 
             // Add paths to omit, if applicable
@@ -176,7 +182,7 @@ namespace WDAC_Wizard
                 deny = "True";
             }
 
-            string newPolicyScriptCmd = $"-NoProfile -ExecutionPolicy Bypass -File \"{ps1File}\" -ScanPath \"{scanPath}\" " +
+            string newPolicyScriptCmd = $"-NoProfile -NoLogo -NonInteractive -ExecutionPolicy Bypass -File \"{ps1File}\" -ScanPath \"{scanPath}\" " +
                 $"-PolicyPath \"{policyPath}\" -Level {level} -Fallback {fallbacks} -PathsToOmit \"{pathsToOmit}\"" +
                 $" -Deny {deny} -UserPEs {userPEs}";
 
@@ -201,10 +207,10 @@ namespace WDAC_Wizard
             try
             {
                 process.Start();
-                process.WaitForExit();
-
+                // Read streams asynchronously to avoid deadlocks and allow PS to flush output
                 string output = process.StandardOutput.ReadToEnd();
                 string error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
 
                 if (!string.IsNullOrEmpty(error))
                 {

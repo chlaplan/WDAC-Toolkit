@@ -15,32 +15,37 @@ param (
     [string]$UserPEs
 )
 
+# Convert comma-separated strings to arrays for PowerShell cmdlet parameters
+$FallbackArray = $Fallback -split ','
+$OmitArray = if ($PathsToOmit -ne '') { $PathsToOmit -split ',' } else { @() }
+
 # Run New-CIPolicy -Scan to generate a policy from a directory
-# The command needs to be run twice to generate the full policy. Otherwise, the "An item with the same key has already been added." WARNING prevents the full policy from being generated.
+# Use -WarningAction SilentlyContinue to suppress the "An item with the same key has already been added." warning
+# which previously required running the command twice as a workaround.
+# Build optional splat for OmitPaths
+$omitSplat = @{}
+if ($OmitArray.Count -gt 0) { $omitSplat['OmitPaths'] = $OmitArray }
+
 if($Deny -eq "False")
 {
     if($UserPEs -eq "True")
     {
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -UserPEs
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -UserPEs
+        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $FallbackArray @omitSplat -UserPEs -WarningAction SilentlyContinue
     }
     else
     {
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit
+        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $FallbackArray @omitSplat -WarningAction SilentlyContinue
     }
 }
 else
 {
     if($UserPEs -eq "True")
     {
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -UserPEs -Deny
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -UserPEs -Deny
+        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $FallbackArray @omitSplat -UserPEs -Deny -WarningAction SilentlyContinue
     }
     else
     {
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -Deny
-        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $Fallback -OmitPaths $PathsToOmit -Deny
+        New-CIPolicy -ScanPath $ScanPath -Level $Level -FilePath $PolicyPath -Fallback $FallbackArray @omitSplat -Deny -WarningAction SilentlyContinue
     }
 }
 # SIG # Begin signature block
