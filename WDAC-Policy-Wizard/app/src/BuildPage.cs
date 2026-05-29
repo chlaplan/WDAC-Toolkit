@@ -83,6 +83,32 @@ namespace WDAC_Wizard
         }
 
         /// <summary>
+        /// Displays a scan summary table on the finish panel for Folder Scan builds.
+        /// </summary>
+        public void SetScanSummary(long totalFilesOnDisk, int policyRelevantFiles, int hashRules, int signerRules, int uniqueHashes, int duplicateHashes, TimeSpan elapsed)
+        {
+            string elapsedText = elapsed.TotalMinutes >= 1
+                ? $"{(int)elapsed.TotalMinutes}m {elapsed.Seconds}s"
+                : $"{elapsed.Seconds}s";
+
+            string summary =
+                $"  SCAN SUMMARY\r\n" +
+                $"\r\n" +
+                $"  Total files on disk        {totalFilesOnDisk,8:N0}\r\n" +
+                $"  Policy-relevant binaries   {policyRelevantFiles,8:N0}\r\n" +
+                $"\r\n" +
+                $"  Signer rules (PCA/Pub)     {signerRules,8:N0}\r\n" +
+                $"  Hash rules in XML          {hashRules,8:N0}\r\n" +
+                $"  Unique hashes              {uniqueHashes,8:N0}\r\n" +
+                $"  Duplicate hashes removed   {duplicateHashes,8:N0}\r\n" +
+                $"\r\n" +
+                $"  Elapsed time               {elapsedText,8}";
+
+            scanSummaryLabel.Text = summary;
+            scanSummaryLabel.Visible = true;
+        }
+
+        /// <summary>
         /// Shows an error message if the CI policy build process throws an error 
         /// </summary>
         public string FormatText(string longstring)
