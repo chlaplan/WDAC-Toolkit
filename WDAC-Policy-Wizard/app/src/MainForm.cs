@@ -66,7 +66,7 @@ namespace WDAC_Wizard
             this.CustomRuleinProgress = false; 
 
             // Check for configci cmdlet availability
-            Helper.LicenseCheck(); 
+            Helper.LicenseCheck();
         }
 
         // ###############
