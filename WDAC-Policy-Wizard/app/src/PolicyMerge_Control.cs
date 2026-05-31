@@ -12,7 +12,7 @@ using System.IO;
 
 namespace WDAC_Wizard.src
 {
-    public partial class PolicyMerge_Control : UserControl
+    public partial class PolicyMerge_Control : UserControl, IWizardPage
     {
         private int nPolicies;
         private string mergePolicyPath;

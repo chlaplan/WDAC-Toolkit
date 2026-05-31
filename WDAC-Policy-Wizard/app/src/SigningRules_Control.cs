@@ -16,7 +16,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace WDAC_Wizard
 {
-    public partial class SigningRules_Control : UserControl
+    public partial class SigningRules_Control : UserControl, IWizardPage
     {
         // CI Policy objects
         public WDAC_Policy Policy;

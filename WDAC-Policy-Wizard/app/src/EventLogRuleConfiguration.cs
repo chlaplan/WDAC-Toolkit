@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace WDAC_Wizard
 {
-    public partial class EventLogRuleConfiguration : UserControl
+    public partial class EventLogRuleConfiguration : UserControl, IWizardPage
     {
         private List<CiEvent> CiEvents;
         // Declare an ArrayList to serve as the data store. 

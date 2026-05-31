@@ -104,12 +104,13 @@ namespace WDAC_Wizard
         }
 
         /// <summary>
-        /// Automatically docks any wizard page (UserControl) added to the MainWindow so its content
-        /// expands and contracts with the host window.
+        /// Automatically docks wizard pages added to the MainWindow so their content expands and
+        /// contracts with the host window. Only controls marked with <see cref="IWizardPage"/> are
+        /// docked, so helper/non-page UserControls keep their own layout and are not forcibly docked.
         /// </summary>
         private void MainWindow_ControlAdded(object sender, ControlEventArgs e)
         {
-            if (e.Control is UserControl)
+            if (e.Control is IWizardPage)
             {
                 RegisterPage(e.Control);
             }
