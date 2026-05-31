@@ -110,6 +110,7 @@ namespace WDAC_Wizard
             this.rulesDataGrid.TabIndex = 92;
             this.rulesDataGrid.VirtualMode = true;
             this.rulesDataGrid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.RulesDataGrid_CellValueNeeded);
+            this.rulesDataGrid.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.RulesDataGrid_ColumnHeaderMouseClick);
             // 
             // column_Action
             // 
@@ -118,6 +119,7 @@ namespace WDAC_Wizard
             this.column_Action.MinimumWidth = 6;
             this.column_Action.Name = "column_Action";
             this.column_Action.ReadOnly = true;
+            this.column_Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.column_Action.Width = 76;
             // 
             // column_Level
@@ -127,6 +129,7 @@ namespace WDAC_Wizard
             this.column_Level.MinimumWidth = 6;
             this.column_Level.Name = "column_Level";
             this.column_Level.ReadOnly = true;
+            this.column_Level.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.column_Level.Width = 71;
             // 
             // Column_Name
@@ -136,6 +139,7 @@ namespace WDAC_Wizard
             this.Column_Name.MinimumWidth = 6;
             this.Column_Name.Name = "Column_Name";
             this.Column_Name.ReadOnly = true;
+            this.Column_Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.Column_Name.Width = 74;
             // 
             // Column_Files
@@ -145,6 +149,7 @@ namespace WDAC_Wizard
             this.Column_Files.MinimumWidth = 6;
             this.Column_Files.Name = "Column_Files";
             this.Column_Files.ReadOnly = true;
+            this.Column_Files.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.Column_Files.Width = 127;
             // 
             // Column_Exceptions
@@ -154,6 +159,7 @@ namespace WDAC_Wizard
             this.Column_Exceptions.MinimumWidth = 6;
             this.Column_Exceptions.Name = "Column_Exceptions";
             this.Column_Exceptions.ReadOnly = true;
+            this.Column_Exceptions.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.Column_Exceptions.Width = 105;
             // 
             // column_ID
@@ -163,6 +169,7 @@ namespace WDAC_Wizard
             this.column_ID.MinimumWidth = 8;
             this.column_ID.Name = "column_ID";
             this.column_ID.ReadOnly = true;
+            this.column_ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             this.column_ID.Width = 77;
             // 
             // label8
