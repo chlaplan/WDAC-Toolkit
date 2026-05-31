@@ -110,6 +110,10 @@ namespace WDAC_Wizard.src
                         this.displayObjects.Add(new DisplayObject(this.nPolicies.ToString(), policyPath));
                         this.policiesDataGrid.RowCount += 1;
 
+                        // Size each column to fit its text. Columns remain user-resizable
+                        // afterwards since AutoSizeColumnsMode stays None.
+                        GridLayoutHelper.AutoFitColumns(this.policiesDataGrid);
+
                         this._MainWindow.Policy.PoliciesToMerge = this.policiesToMerge;
 
                         if (this.nPolicies >= 2 && !String.IsNullOrEmpty(this.mergePolicyPath))

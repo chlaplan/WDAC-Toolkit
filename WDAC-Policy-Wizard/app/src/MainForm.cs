@@ -83,9 +83,37 @@ namespace WDAC_Wizard
             Helper.LicenseCheck();
         }
 
-        // ###############
-        // HEADER CONTROLS
-        // ###############
+        // #####################
+        // DYNAMIC LAYOUT SUPPORT
+        // #####################
+
+        /// <summary>
+        /// Hosts a wizard page (UserControl) so it fills the MainWindow client area and tracks the
+        /// window as it is resized or maximized. Each page now manages its own responsive layout
+        /// internally (via WinForms layout containers and Dock/Anchor), so the host only needs to
+        /// dock the page to fill the available space.
+        /// </summary>
+        private void RegisterPage(Control page)
+        {
+            if (page == null)
+            {
+                return;
+            }
+
+            page.Dock = DockStyle.Fill;
+        }
+
+        /// <summary>
+        /// Automatically docks any wizard page (UserControl) added to the MainWindow so its content
+        /// expands and contracts with the host window.
+        /// </summary>
+        private void MainWindow_ControlAdded(object sender, ControlEventArgs e)
+        {
+            if (e.Control is UserControl)
+            {
+                RegisterPage(e.Control);
+            }
+        }
 
         /// <summary>
         /// New policy button selected: User can select either base or suppl policy,
@@ -2239,7 +2267,10 @@ namespace WDAC_Wizard
             SetControlPanelUI();
 
             // Set UI for the 'Next' Button
-            SetNextButtonUI(); 
+            SetNextButtonUI();
+
+            // Dock wizard pages so their content fills and tracks the window as it is resized
+            this.ControlAdded += MainWindow_ControlAdded;
         }
 
         /// <summary>

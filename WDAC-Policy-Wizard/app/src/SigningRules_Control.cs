@@ -504,6 +504,10 @@ namespace WDAC_Wizard
                     }
                 }
             }
+
+            // Size each column to fit its text once all rules are loaded. Columns remain
+            // user-resizable afterwards since AutoSizeColumnsMode stays None.
+            GridLayoutHelper.AutoFitColumns(this.rulesDataGrid);
         }
 
 
@@ -1212,6 +1216,10 @@ namespace WDAC_Wizard
             // Add to the DisplayObject
             this.displayObjects.Add(new DisplayObject(action, level, name, files, exceptions));
             this.rulesDataGrid.RowCount += 1;
+
+            // Size each column to fit its text. Columns remain user-resizable afterwards
+            // since AutoSizeColumnsMode stays None.
+            GridLayoutHelper.AutoFitColumns(this.rulesDataGrid);
 
             // Add custom list to RulesList
             this.Policy.CustomRules.Add(customRule);
