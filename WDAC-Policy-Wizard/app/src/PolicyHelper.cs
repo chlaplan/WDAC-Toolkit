@@ -2491,21 +2491,6 @@ namespace WDAC_Wizard
         }
 
         /// <summary>
-        /// Returns the ID attribute of a FileRules entry regardless of its concrete type
-        /// (Allow, Deny, FileRule).
-        /// </summary>
-        private static string GetFileRuleId(Object rule)
-        {
-            switch (rule)
-            {
-                case Allow a: return a.ID;
-                case Deny d: return d.ID;
-                case FileRule f: return f.ID;
-                default: return null;
-            }
-        }
-
-        /// <summary>
         /// Handles the merge operation between a new Signer[] and an existing Signer[] struct
         /// </summary>
         /// <param name="newProductSigners"></param>
