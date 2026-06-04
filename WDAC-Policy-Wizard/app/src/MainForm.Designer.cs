@@ -363,6 +363,7 @@ namespace WDAC_Wizard
             button_Back.Name = "button_Back";
             button_Back.Size = new System.Drawing.Size(93, 33);
             button_Back.TabIndex = 36;
+            button_Back.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             button_Back.Text = "Back";
             button_Back.UseVisualStyleBackColor = true;
             button_Back.Visible = false;
