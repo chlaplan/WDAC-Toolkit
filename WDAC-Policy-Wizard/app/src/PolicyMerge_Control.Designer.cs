@@ -170,7 +170,6 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            AutoScroll = true;
             Controls.Add(label_Error);
             Controls.Add(button_RemovePolicy);
             Controls.Add(button_AddPolicy);

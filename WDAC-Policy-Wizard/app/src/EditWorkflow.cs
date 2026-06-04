@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace WDAC_Wizard
 {
-    public partial class EditWorkflow : UserControl, IWizardPage
+    public partial class EditWorkflow : UserControl
     {
         public string EditPath { get; set; }
         private int NumberRules; 

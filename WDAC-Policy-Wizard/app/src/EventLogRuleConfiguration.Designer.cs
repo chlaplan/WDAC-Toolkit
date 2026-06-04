@@ -86,7 +86,6 @@ namespace WDAC_Wizard
             addButton.Location = new System.Drawing.Point(442, 412);
             addButton.Name = "addButton";
             addButton.Size = new System.Drawing.Size(130, 30);
-            addButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             addButton.TabIndex = 0;
             addButton.Text = "+ Add Allow Rule";
             addButton.UseVisualStyleBackColor = true;
@@ -107,7 +106,6 @@ namespace WDAC_Wizard
             publisherRulePanel.Location = new System.Drawing.Point(167, 447);
             publisherRulePanel.Name = "publisherRulePanel";
             publisherRulePanel.Size = new System.Drawing.Size(716, 190);
-            publisherRulePanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             publisherRulePanel.TabIndex = 9;
             // 
             // productTextBox
@@ -229,7 +227,6 @@ namespace WDAC_Wizard
             label3.Location = new System.Drawing.Point(163, 415);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(90, 21);
-            label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label3.TabIndex = 8;
             label3.Text = "Rule Type:";
             // 
@@ -241,7 +238,6 @@ namespace WDAC_Wizard
             ruleTypeComboBox.Location = new System.Drawing.Point(259, 412);
             ruleTypeComboBox.Name = "ruleTypeComboBox";
             ruleTypeComboBox.Size = new System.Drawing.Size(163, 29);
-            ruleTypeComboBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ruleTypeComboBox.TabIndex = 3;
             ruleTypeComboBox.SelectedIndexChanged += RuleTypeChanged;
             // 
@@ -260,7 +256,6 @@ namespace WDAC_Wizard
             fileAttributeRulePanel.Location = new System.Drawing.Point(906, 447);
             fileAttributeRulePanel.Name = "fileAttributeRulePanel";
             fileAttributeRulePanel.Size = new System.Drawing.Size(551, 190);
-            fileAttributeRulePanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             fileAttributeRulePanel.TabIndex = 21;
             fileAttributeRulePanel.Visible = false;
             // 
@@ -378,7 +373,7 @@ namespace WDAC_Wizard
             // 
             eventsDataGridView.AllowUserToDeleteRows = false;
             eventsDataGridView.AllowUserToResizeRows = false;
-            eventsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
+            eventsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             eventsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             eventsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { addedColumn, eventIdColumn, filenameColumn, productColumn, policyColumn, publisherColumn, issuerTbsHashColumn });
             eventsDataGridView.EnableHeadersVisualStyles = false;
@@ -392,7 +387,6 @@ namespace WDAC_Wizard
             eventsDataGridView.RowTemplate.Height = 24;
             eventsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             eventsDataGridView.Size = new System.Drawing.Size(896, 287);
-            eventsDataGridView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             eventsDataGridView.TabIndex = 4;
             eventsDataGridView.VirtualMode = true;
             eventsDataGridView.CellClick += EventRowClick;
@@ -401,7 +395,7 @@ namespace WDAC_Wizard
             // 
             // addedColumn
             // 
-            addedColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            addedColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             addedColumn.HeaderText = "Added To Policy";
             addedColumn.MinimumWidth = 100;
             addedColumn.Name = "addedColumn";
@@ -411,7 +405,7 @@ namespace WDAC_Wizard
             // 
             // eventIdColumn
             // 
-            eventIdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            eventIdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             eventIdColumn.HeaderText = "Event Id";
             eventIdColumn.MinimumWidth = 6;
             eventIdColumn.Name = "eventIdColumn";
@@ -421,7 +415,7 @@ namespace WDAC_Wizard
             // 
             // filenameColumn
             // 
-            filenameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            filenameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             filenameColumn.HeaderText = "Filename";
             filenameColumn.MinimumWidth = 6;
             filenameColumn.Name = "filenameColumn";
@@ -431,7 +425,7 @@ namespace WDAC_Wizard
             // 
             // productColumn
             // 
-            productColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            productColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             productColumn.HeaderText = "Product";
             productColumn.MinimumWidth = 6;
             productColumn.Name = "productColumn";
@@ -441,7 +435,7 @@ namespace WDAC_Wizard
             // 
             // policyColumn
             // 
-            policyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            policyColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             policyColumn.HeaderText = "Policy Name";
             policyColumn.MinimumWidth = 6;
             policyColumn.Name = "policyColumn";
@@ -451,7 +445,7 @@ namespace WDAC_Wizard
             // 
             // publisherColumn
             // 
-            publisherColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            publisherColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             publisherColumn.HeaderText = "Publisher";
             publisherColumn.MinimumWidth = 6;
             publisherColumn.Name = "publisherColumn";
@@ -488,7 +482,6 @@ namespace WDAC_Wizard
             hashRulePanel.Location = new System.Drawing.Point(765, 664);
             hashRulePanel.Name = "hashRulePanel";
             hashRulePanel.Size = new System.Drawing.Size(603, 93);
-            hashRulePanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             hashRulePanel.TabIndex = 22;
             hashRulePanel.Visible = false;
             // 
@@ -541,7 +534,6 @@ namespace WDAC_Wizard
             filePathRulePanel.Location = new System.Drawing.Point(16, 664);
             filePathRulePanel.Name = "filePathRulePanel";
             filePathRulePanel.Size = new System.Drawing.Size(743, 93);
-            filePathRulePanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             filePathRulePanel.TabIndex = 22;
             filePathRulePanel.Visible = false;
             // 
@@ -603,7 +595,6 @@ namespace WDAC_Wizard
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            AutoScroll = true;
             BackColor = System.Drawing.Color.White;
             Controls.Add(publisherRulePanel);
             Controls.Add(label3);

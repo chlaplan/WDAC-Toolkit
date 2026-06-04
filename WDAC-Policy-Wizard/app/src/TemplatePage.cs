@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace WDAC_Wizard
 {
-    public partial class TemplatePage : UserControl, IWizardPage
+    public partial class TemplatePage : UserControl
     {
         // Properties to maintain the policy mode selected
         private MainWindow _MainWindow;
