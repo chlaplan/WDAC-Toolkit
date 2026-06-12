@@ -386,6 +386,7 @@ namespace WDAC_Wizard
             // 
             // label2
             // 
+            label2.AutoSize = true;
             label2.BackColor = System.Drawing.Color.Transparent;
             label2.Font = new System.Drawing.Font("Tahoma", 9F);
             label2.Location = new System.Drawing.Point(198, 453);
@@ -398,6 +399,7 @@ namespace WDAC_Wizard
             // 
             // label3
             // 
+            label3.AutoSize = true;
             label3.BackColor = System.Drawing.Color.Transparent;
             label3.Font = new System.Drawing.Font("Tahoma", 9F);
             label3.Location = new System.Drawing.Point(408, 453);
@@ -410,6 +412,7 @@ namespace WDAC_Wizard
             // 
             // label4
             // 
+            label4.AutoSize = true;
             label4.BackColor = System.Drawing.Color.Transparent;
             label4.Font = new System.Drawing.Font("Tahoma", 9F);
             label4.Location = new System.Drawing.Point(618, 453);
@@ -422,6 +425,7 @@ namespace WDAC_Wizard
             // 
             // label5
             // 
+            label5.AutoSize = true;
             label5.BackColor = System.Drawing.Color.Transparent;
             label5.Font = new System.Drawing.Font("Tahoma", 9F);
             label5.Location = new System.Drawing.Point(828, 453);
